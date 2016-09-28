@@ -21,7 +21,7 @@ class Investment < Bank
 		
 		diff_in_days = (Date.today - self.start_date).to_i
 		num_of_weeks = diff_in_days / 7
-		debugger
+	
 		num_of_weeks.times {self.update(balance: self.balance * (self.interest_rate.to_f / 100 + 1))}
 
 		self.start_date = start_date + (num_of_weeks * 7)
