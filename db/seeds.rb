@@ -13,13 +13,13 @@ Sam_Jr = Child.create(name: "Sam Jr.", username: "boyjr", password: "123456", pa
 
 Samantha = Child.create(name: "Samantha", username: "girljr", password: "123456", parent_id: 1, undeposited_funds: 5)
 
-Samantha_Investment = Investment.create(balance: 3, start_date: Date.today, interest_rate: 2, child_id: 2 )
+Samantha_Investment = Investment.create(balance: 3, start_date: Date.parse('2016-09-05'), interest_rate: 2, child_id: 2 )
 
 Samantha_Spending = Spending.create(balance: 5, child_id: 2)
 Samantha_Donation = Donation.create(balance: 5, child_id: 2)
 Samantha_Saving = Saving.create(balance: 5, child_id: 2, save_item: "barbie dream house")
 
-Sam_Jr_Investment = Investment.create(balance: 3, start_date: Date.today, interest_rate: 2, child_id: 1 )
+Sam_Jr_Investment = Investment.create(balance: 3, start_date: Date.parse('2015-09-05'), interest_rate: 2, child_id: 1 )
 Sam_Jr_Spending = Spending.create(balance: 5, child_id: 1)
 Sam_Jr_Donation = Donation.create(balance: 5, child_id: 1)
 Sam_Jr_Saving = Saving.create(balance: 5, child_id: 1, save_item: "bicycle")
