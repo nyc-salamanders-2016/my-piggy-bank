@@ -81,10 +81,10 @@ class Bank extends React.Component {
 
     return(
       <div className="row">
-      <form className="form-inline" onSubmit={this.handleRequestTransfer} >
+      <form className="form-inline" id="transfer-form" onSubmit={this.handleRequestTransfer} >
       <div className="form-group">
           <label>To: </label>
-          <select ref='bank'>
+          <select className="form-control" ref='bank'>
               {
               this.props.child.banks.filter(this.filterBanks).map((bank, idx) => <option key={idx}>{bank.type}</option>)
             }
@@ -92,9 +92,10 @@ class Bank extends React.Component {
         </div>
         <div className="form-group">
           <label className="label-lg"> <h5>Amount:</h5> </label>
-          <input type="number" className="form-control input-lg" ref='amount' step= "any" min ="0" />
+
+          <input type="number" className="form-control" id="child-transfer-amount-tag" ref='amount' step= "any" min ="0"/>
         </div>
-        <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+        <button type="submit" className="btn btn-primary child-transfer-submit-tag text-center">Submit</button>
 
       </form>
          </div>
@@ -193,7 +194,7 @@ class Bank extends React.Component {
 
   displayRedeemButton(){
     return(
-      <button type="submit" onClick={this.handleSavingsClick} className="btn btn-primary">Redeem {this.props.bank.save_item}</button>
+      <button type="submit" onClick={this.handleSavingsClick} className="btn btn-primary">Redeem!</button>
     )
   }
 
@@ -216,6 +217,7 @@ class Bank extends React.Component {
     return (
 
     	<div className="col-md-3 banks" id={this.props.bank.type}>
+        {this.showInterest()}
         <div className="bank-picture">
       	   <img src="piggy4.png" className="img-rounded" alt="piggy" width="250" height="236" id="piggy" />
           <div className="bank-content">
@@ -225,12 +227,10 @@ class Bank extends React.Component {
             
             <li>{this.props.bank.type === "Saving" && this.props.bank.save_item != null ? <h4 className="text-center header">Saving for my: <br/><p>{this.props.bank.save_item}</p> </h4>: null }</li>
             {this.showAccumulatedInterest()}
-            {this.showInterest()}
-            
           </div>
         </div>
 
-        { this.state.error?
+              { this.state.error?
               <div className="row">
                <div className=" col-md-3 alert alert-danger alert-dismissible" role="alert">
                 <strong>{this.state.error}</strong>
@@ -241,24 +241,21 @@ class Bank extends React.Component {
               </div>
                : null }
 
-      	<li>
+         
+      
 
-          <div className="btn-group btn-group-justified" role="group" aria-label="...">
-            <div className="btn-group" role="group">
-              {this.state.displayTransferButton ? <button type="submit" onClick={this.toggleDisplayTransferForm} className="btn btn-primary ">Request Transfer</button> : null}
+            <div className="btn-group btn-group-justified list-inline" role="group">
 
+              <li>{this.state.displayTransferButton ? <button type="submit" onClick={this.toggleDisplayTransferForm} className="btn btn-primary ">Request Transfer</button> : null}</li>
+              <li>{this.props.bank.type === "Donation" ? this.displayDonationButton() : null }</li>
+              <li>{this.props.bank.type === "Saving" ? this.displayRedeemButton() : null }</li>
             </div>
 
-        		<div className="btn-group" role="group">
-
-           	 
-            
+      
               {this.state.displayTransferForm ? this.displayTransferForm() : null }
             
-              {this.props.bank.type === "Donation" ? this.displayDonationButton() : null }
+             
               {this.state.donateFeedback? this.displayDonateFeedback():null}
-
-              {this.props.bank.type === "Saving" ? this.displayRedeemButton() : null }
 
               {this.state.displayRedeemAlert ? <div className="alert alert-success alert-dismissible">
                 <button type="button" className="close" data-dismiss="alert" aria-label="Close">
@@ -267,10 +264,10 @@ class Bank extends React.Component {
                 <strong>Yay!</strong> Your parents will redeem your {this.props.bank.save_item}!
                </div> : null}
 
-        		</div>
-          </div>
+        		
 
-        </li>
+
+
         
     	</div>
 
