@@ -52,9 +52,9 @@ class ChildRewardList extends React.Component {
           }
         </tbody>
       </table>
-      {this.state.displayAlert ? <div className="alert alert-success alert-dismissible">
-        <button onSubmit={this.toggleAlert} type="button" className="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+      {this.state.displayAlert ? <div className="alert alert-success ">
+        <button type="button" className="close" aria-label="Close">
+        <span onClick={this.toggleAlert}aria-hidden="true">&times;</span>
         </button>
         <strong>Yay!</strong> Your parents will give you your reward!
       </div> : null }

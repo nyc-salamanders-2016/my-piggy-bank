@@ -9,7 +9,8 @@ class Bank extends React.Component {
       displayTransferButton: true,
       error: null,
       displayRedeemAlert: false,
-      donateFeedback: false
+      donateFeedback: false,
+      transferFeedback: false
     }
     this.displayDonationForm = this.displayDonationForm.bind(this)
     this.displayDonationButton = this.displayDonationButton.bind(this)
@@ -24,7 +25,25 @@ class Bank extends React.Component {
     this.showAccumulatedInterest = this.showAccumulatedInterest.bind(this)
     this.displayDonateFeedback = this.displayDonateFeedback.bind(this)
     this.toggleDisplayFeedback = this.toggleDisplayFeedback.bind(this)
+    this.displayTransferFeedback = this.displayTransferFeedback.bind(this)
+    this.toggleTransferFeedback = this.toggleTransferFeedback.bind(this)
+    this.toggleRedeemAlert = this.toggleRedeemAlert.bind(this)
   }
+
+    displayTransferFeedback(){
+      return(
+       <div  className="alert alert-success">
+          <button  type="button" className="close"  aria-label="Close">
+             <span onClick={this.toggleTransferFeedback} aria-hidden="true">&times;</span>
+            </button>
+          <strong >Your request has been made!</strong>
+        </div>
+        )
+    }
+
+    toggleTransferFeedback(){
+      this.setState({transferFeedback: false})
+    }
 
     handleRequestTransfer(event){
     var amount = this.refs.amount.value
@@ -47,6 +66,7 @@ class Bank extends React.Component {
      this.setState({
       displayTransferForm: false,
       displayTransferButton: true,
+      transferFeedback: true
      })
 
 
@@ -92,7 +112,7 @@ class Bank extends React.Component {
         </div>
         <div className="form-group">
           <label className="label-lg"> <h5>Amount:</h5> </label>
-          <input type="number" className="form-control input-lg" ref='amount'  placeholder="0.00" step= "any" min ="0" />
+          <input type="number" className="form-control input-lg" ref='amount'  placeholder="0.00" step= "any" min ="0" required />
         </div>
         <button type="submit" className="btn btn-primary btn-lg">Submit</button>
 
@@ -210,6 +230,10 @@ class Bank extends React.Component {
     })
   }
 
+  toggleRedeemAlert(){
+    this.setState({ displayRedeemAlert: false})
+  }
+
 
   render () {
 
@@ -254,15 +278,16 @@ class Bank extends React.Component {
            	 
             
               {this.state.displayTransferForm ? this.displayTransferForm() : null }
+              {this.state.transferFeedback? this.displayTransferFeedback(): null}
             
               {this.props.bank.type === "Donation" ? this.displayDonationButton() : null }
               {this.state.donateFeedback? this.displayDonateFeedback():null}
 
               {this.props.bank.type === "Saving" ? this.displayRedeemButton() : null }
 
-              {this.state.displayRedeemAlert ? <div className="alert alert-success alert-dismissible">
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              {this.state.displayRedeemAlert ? <div className="alert alert-success ">
+                <button type="button" className="close"  aria-label="Close">
+                <span onClick ={this.toggleRedeemAlert} aria-hidden="true">&times;</span>
                 </button>
                 <strong>Yay!</strong> Your parents will redeem your {this.props.bank.save_item}!
                </div> : null}
